@@ -7,6 +7,7 @@ from sklearn.cluster import SpectralClustering
 from ..utils.distances import DistanceUtils
 from ..utils.plotting import PlottingMixin
 from ..stability.stability import StabilityEvaluator
+from ..utils.eac import eac_consensus
 
 
 class MultiDistanceClustering(PlottingMixin):
@@ -97,15 +98,26 @@ class MultiDistanceClustering(PlottingMixin):
         return model.fit_predict([K1, K2])
 
     def _fit_eac(self, D1, D2):
-        from eac import EAC
+        """
+        EAC consensus of two base k-medoids clusterings:
+        - one from D1
+        - one from D2
 
-        base1 = self._fit_kmedoids(D1)
-        base2 = self._fit_kmedoids(D2)
+        Currently both are weighted equally (0.5, 0.5) in the
+        co-association matrix.
+        """
+        labels1 = self._fit_kmedoids(D1)
+        labels2 = self._fit_kmedoids(D2)
 
-        eac = EAC()
-        # weights for each partition; you can make them alpha/(1-alpha) if desired
-        eac.fit([(base1, 0.5), (base2, 0.5)], n_clusters=self.n_clusters)
-        return eac.labels_
+        # Equal weights; if you later want to encode "confidence" of D1,
+        # you can use weights=[alpha, 1-alpha] instead.
+        labels_eac, _ = eac_consensus(
+            [labels1, labels2],
+            n_clusters=self.n_clusters,
+            weights=[0.5, 0.5],
+        )
+        return labels_eac
+    
 
     # ---------------------------------------------------------
     # Cluster fun wrapper for stability (only for kmedoids/spectral)

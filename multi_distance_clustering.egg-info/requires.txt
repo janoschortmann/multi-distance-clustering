@@ -1,0 +1,8 @@
+numpy
+scikit-learn
+scikit-learn-extra
+joblib
+scipy
+matplotlib
+seaborn
+mvlearn
