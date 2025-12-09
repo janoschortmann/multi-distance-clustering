@@ -18,7 +18,7 @@ class MultiDistanceClustering(PlottingMixin):
 
     - "kmedoids"              : k-medoids on weighted distance
     - "spectral"              : spectral clustering on RBF kernel of weighted distance
-    - "multi_kernel_spectral" : multi-view spectral clustering (mvlearn)
+    - "multi_kernel_spectral" : multi-view spectral clustering
     - "eac"                   : Evidence Accumulation Clustering (eac)
 
     Weighted distance: D = alpha * D1 + (1 - alpha) * D2.
@@ -88,16 +88,20 @@ class MultiDistanceClustering(PlottingMixin):
         ).fit_predict(K)
 
     def _fit_multi_kernel_spectral(self, D1, D2):
-        from mvlearn.cluster import MultiviewSpectralClustering
+        """
+        Internal multi-kernel spectral clustering without mvlearn.
+        Uses RBF kernels and fuses them with current alpha.
+        """
+        alpha = self.alpha if self.alpha is not None else 0.5
 
-        K1 = DistanceUtils.rbf_kernel(D1)
-        K2 = DistanceUtils.rbf_kernel(D2)
-
-        model = MultiviewSpectralClustering(
+        labels = multi_kernel_spectral_clustering(
+            D1,
+            D2,
             n_clusters=self.n_clusters,
-            random_state=self.random_state,
+            alpha=alpha,
         )
-        return model.fit_predict([K1, K2])
+        return labels
+    
 
     def _fit_eac(self, D1, D2):
         """
