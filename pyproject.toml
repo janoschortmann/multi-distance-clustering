@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi-distance-clustering"
+version = "0.1.0"
+description = "Distance-based clustering framework combining multiple distance matrices with alpha weighting, stability selection, and multi-view methods."
+readme = "README.md"
+authors = [
+    { name = "Janosch Ortmann", email = "janosch.ortmann@gmail.com" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+
+dependencies = [
+    "numpy",
+    "scikit-learn",
+    "scikit-learn-extra",
+    "joblib",
+    "scipy",
+    "matplotlib",
+    "seaborn",
+    "mvlearn",
+    "eac"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["multi_distance_clustering*"]
+
+[project.urls]
+homepage = "https://github.com/janoschortmann/multi-distance-clustering"
+documentation = "https://github.com/janoschortmann/multi-distance-clustering"
+issues = "https://github.com/janoschortmann/multi-distance-clustering/issues"
