@@ -69,16 +69,16 @@ clu.plot_weighted_dendrogram()
 
 ##  Features
 
-### ✔ Automatic alpha selection  
+### Automatic alpha selection  
 Alpha is chosen by maximizing clustering **stability** over random subsamples using ARI.
 
-### ✔ Spectral & multi-kernel clustering  
+### Spectral & multi-kernel clustering  
 Support for multi-view spectral clustering using mvlearn.
 
-### ✔ Consensus clustering (EAC)  
+### Consensus clustering (EAC)  
 Combine two distance-based clusterings into a consensus partition.
 
-### ✔ Visualization utilities  
+### Visualization utilities  
 Heatmaps and dendrograms for weighted and input distances.
 
 ---
