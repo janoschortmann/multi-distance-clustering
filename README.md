@@ -8,19 +8,19 @@ A Python package for clustering using **two distance matrices**, supporting:
   \
 - Automatic selection of the weight α via **stability maximization**
 - Multiple clustering backends:
-  - **k-medoids** (scikit-learn-extra)
-  - **spectral clustering**
-  - **multi-kernel spectral clustering** (mvlearn)
-  - **EAC consensus clustering** (eac package)
+  - k-medoids (via `scikit-learn-extra`)
+  - spectral clustering
+  - multi-kernel spectral clustering (via `mvlearn`)
+  - EAC consensus clustering (via `eac`)
 - Silhouette evaluation for precomputed distances
 - Distance matrix heatmaps and dendrogram plots
 - Modular, extensible, object-oriented implementation
 
 ---
 
-## 🚀 Installation
+##  Installation
 
-Clone the repository and install in **editable mode**:
+Clone the repository and install in editable mode:
 
 ```bash
 pip install -e .
@@ -34,7 +34,7 @@ matplotlib, seaborn, mvlearn, eac
 
 ---
 
-## 📦 Example usage
+##  Example usage
 
 ```python
 import numpy as np
@@ -67,7 +67,7 @@ clu.plot_weighted_dendrogram()
 
 ---
 
-## 📚 Features
+##  Features
 
 ### ✔ Automatic alpha selection  
 Alpha is chosen by maximizing clustering **stability** over random subsamples using ARI.
@@ -83,7 +83,7 @@ Heatmaps and dendrograms for weighted and input distances.
 
 ---
 
-## 📁 Package structure
+## Package structure
 
 ```
 multi_distance_clustering/
@@ -100,7 +100,7 @@ multi_distance_clustering/
 
 ---
 
-## 🧪 Running the tests
+## Running the tests
 
 Once installed:
 
@@ -112,12 +112,8 @@ Tests are included in the `tests/` directory.
 
 ---
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License — see the `LICENSE` file for details.
 
----
 
-## ✨ Contributing
-
-Issues and pull requests are welcome!
