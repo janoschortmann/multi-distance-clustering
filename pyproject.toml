@@ -21,7 +21,6 @@ dependencies = [
     "scipy",
     "matplotlib",
     "seaborn",
-    "mvlearn"
 ]
 
 

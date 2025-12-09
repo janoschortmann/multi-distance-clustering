@@ -15,7 +15,6 @@ Requires-Dist: joblib
 Requires-Dist: scipy
 Requires-Dist: matplotlib
 Requires-Dist: seaborn
-Requires-Dist: mvlearn
 
 # multi-distance-clustering
 

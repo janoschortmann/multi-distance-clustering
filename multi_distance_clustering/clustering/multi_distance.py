@@ -8,6 +8,8 @@ from ..utils.distances import DistanceUtils
 from ..utils.plotting import PlottingMixin
 from ..stability.stability import StabilityEvaluator
 from ..utils.eac import eac_consensus
+from ..utils.multi_kernel_spectral import multi_kernel_spectral_clustering
+
 
 
 class MultiDistanceClustering(PlottingMixin):

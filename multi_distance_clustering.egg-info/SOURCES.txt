@@ -13,6 +13,7 @@ multi_distance_clustering/stability/stability.py
 multi_distance_clustering/utils/__init__.py
 multi_distance_clustering/utils/distances.py
 multi_distance_clustering/utils/eac.py
+multi_distance_clustering/utils/multi_kernel_spectral.py
 multi_distance_clustering/utils/plotting.py
 tests/test_kmedoids_clustering.py
 tests/test_multi_kernel_and_eac.py
