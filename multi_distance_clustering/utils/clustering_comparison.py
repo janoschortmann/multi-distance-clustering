@@ -9,6 +9,8 @@ from sklearn.metrics import (
 )
 
 
+from scipy.optimize import linear_sum_assignment
+
 class ClusteringComparison:
     """
     Utility to compare multiple clusterings produced on the same dataset.
@@ -107,6 +109,84 @@ class ClusteringComparison:
         plt.xticks(rotation=20)
         plt.tight_layout()
         plt.show()
+from scipy.optimize import linear_sum_assignment
+
+
+    # ---------------------------------------------------------
+    # Cluster overlap and optimal alignment
+    # ---------------------------------------------------------
+    def cluster_overlap_matrix(self, labels1, labels2):
+        """
+        Compute raw overlap counts between clusters of two labelings.
+
+        Returns
+        -------
+        M : ndarray of shape (k1, k2)
+            M[i, j] = number of points that are in cluster i of labels1
+                      and cluster j of labels2.
+        unique1, unique2 : arrays of unique labels
+        """
+        labels1 = np.asarray(labels1)
+        labels2 = np.asarray(labels2)
+
+        unique1 = np.unique(labels1)
+        unique2 = np.unique(labels2)
+
+        k1 = len(unique1)
+        k2 = len(unique2)
+
+        M = np.zeros((k1, k2), dtype=int)
+
+        for i, c1 in enumerate(unique1):
+            idx1 = np.where(labels1 == c1)[0]
+            for j, c2 in enumerate(unique2):
+                idx2 = np.where(labels2 == c2)[0]
+                M[i, j] = len(np.intersect1d(idx1, idx2))
+
+        return M, unique1, unique2
+
+
+    def best_cluster_alignment(self, labels1, labels2):
+        """
+        Find best alignment between clusters of two labelings using Hungarian algorithm.
+
+        Returns
+        -------
+        assignment : list of (cluster_from_labels1, cluster_from_labels2)
+        M : overlap matrix
+        """
+        M, u1, u2 = self.cluster_overlap_matrix(labels1, labels2)
+
+        # Hungarian algorithm wants a cost matrix to minimize → we maximize overlap
+        cost = -M
+        row_ind, col_ind = linear_sum_assignment(cost)
+
+        alignment = [(u1[i], u2[j]) for i, j in zip(row_ind, col_ind)]
+        return alignment, M, u1, u2
+
+
+    def plot_overlap_heatmap(self, method1, method2, figsize=(6, 5)):
+        """
+        Plot heatmap of cluster overlap between two methods,
+        after optimal alignment.
+        """
+        labels1 = self.clusterings[method1]
+        labels2 = self.clusterings[method2]
+
+        alignment, M, u1, u2 = self.best_cluster_alignment(labels1, labels2)
+
+        plt.figure(figsize=figsize)
+        sns.heatmap(M, annot=True, fmt="d",
+                    xticklabels=[f"{method2}:{c}" for c in u2],
+                    yticklabels=[f"{method1}:{c}" for c in u1],
+                    cmap="Blues")
+        plt.title(f"Cluster Overlap: {method1} vs {method2}\n(Optimal Matching)")
+        plt.xlabel(method2)
+        plt.ylabel(method1)
+        plt.tight_layout()
+        plt.show()
+
+
 
     # ---------------------------------------------------------
     # Summary
@@ -124,3 +204,5 @@ class ClusteringComparison:
             "nmi": self.pairwise_nmi(),
             "methods": self.methods,
         }
+
+
